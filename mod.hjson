@@ -1,0 +1,8 @@
+displayName:"AdminTool"
+name: "admintool"
+description: "Для работы на сервере нужен плагин: https://github.com/MindustryInside/JSEval\nи админ"
+author: "paulieg626"
+version: "1.0"
+dependencies: []
+minGameVersion: 122
+hidden: true
