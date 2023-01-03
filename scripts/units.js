@@ -3,28 +3,29 @@ const m = require("command");
 
 function addUnit(table,b,dialog){
     let player = new Table().left().top();
-    table.button(new TextureRegionDrawable(Groups.unit.index(b).icon()), Styles.clearFulli, 30, run(() => {})).size(40);
+    table.button(new TextureRegionDrawable(Groups.unit.index(b).icon()), Styles.clearNonei, 30, run(() => {})).size(40);
     if(Groups.unit.index(b).isPlayer()){
-        player.add(Groups.unit.index(b).getControllerName(),parseFloat(0.7)).size(200,40).pad(10)
-        player.add("[blue]id:"+Groups.unit.index(b).id,parseFloat(0.7)).size(60,40).pad(10)
-        player.add("[red]"+parseInt(Groups.unit.index(b).health).toString(),parseFloat(0.7)).size(100,40).pad(10)
+        player.add(Groups.unit.index(b).getControllerName(),parseFloat(0.7)).size(200,40).pad(10);
+        player.add("[blue]id:"+Groups.unit.index(b).id,parseFloat(0.7)).size(60,40).pad(10);
+        player.add("[red]"+parseInt(Groups.unit.index(b).health).toString(),parseFloat(0.7)).size(140,40).pad(10);
     }else{
-        player.add(Groups.unit.index(b).type.name,parseFloat(0.7)).size(200,40).pad(10)
-        player.add("[red]"+Groups.unit.index(b).health.toString(),parseFloat(0.7)).size(100,40).pad(10)
+        player.add(Groups.unit.index(b).type.name,parseFloat(0.7)).size(200,40).pad(10);
+        player.add("[blue]id:"+Groups.unit.index(b).id,parseFloat(0.7)).size(60,40).pad(10);
+        player.add("[red]"+Groups.unit.index(b).health.toString(),parseFloat(0.7)).size(140,40).pad(10);
     }
     table.add(player);
     player.clicked(() => {
         m.command("Groups.unit.each(e => {if(e.id=="+Groups.unit.index(b).id+"){e.kill()}})");
         dialog.hide();
     });
-    let bi = new ImageButton(new TextureRegionDrawable(Core.atlas.find("admintool-square")), Styles.logici)
-    bi.getImageCell().size(40);;
+    let bi = new ImageButton(new TextureRegionDrawable(Core.atlas.find("admintool-square")), Styles.logici);
+    bi.getImageCell().size(40);
     bi.clicked(() => {//Team
         
     });
     bi.style.imageUpColor = Groups.unit.index(b).team.color;
     player.add(bi).size(40);
-    let bi2 = new ImageButton(Icon.trash, Styles.logici)
+    let bi2 = new ImageButton(Icon.trash, Styles.logici);
     bi2.style.imageUpColor = Color.white;
     bi2.clicked(() => {//Kill
         m.command("Groups.unit.each(e => {if(e.id==\""+Groups.unit.index(b).id+"\"){e.unit().kill()}})");
@@ -53,7 +54,7 @@ function folding(t){
         for(var b = 0; b < Groups.unit.size(); b++){
             addUnit(players,b,dialog);
         };
-        dialog.buttons.button(vars.playerName, run(() => {})).size(190,50);
+        dialog.buttons.button(Vars.player.name, run(() => {})).size(190,50);
         dialog.buttons.row();
         dialog.buttons.button("Закрыть", run(() => {dialog.hide();})).size(190,50);
         dialog.show();
@@ -76,7 +77,7 @@ function foldedFolder(table){
         if(Vars.player.unit().isBuilding()) return false;
         if(Vars.control.input.block != null) return false;
         if(Vars.control.input.mode == PlaceMode.breaking) return false;
-        if(!Vars.control.input.selectRequests.isEmpty() && Vars.control.input.lastSchematic != null && !Vars.control.input.selectRequests.isEmpty()) return false;
+        //if(!Vars.control.input.selectRequests.isEmpty() && Vars.control.input.lastSchematic != null && !Vars.control.input.selectRequests.isEmpty()) return false;
         return true;
     };
 }

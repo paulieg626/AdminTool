@@ -1,12 +1,12 @@
 const vars = require("vars");
 
-function folding(t){
-    return t.button("AdminTool", run(() => {d()})).size(140, 40).padTop(5).padRight(5);
+function folding(t,x,y){
+    return t.button("AdminTool", run(() => {d()})).size(x,y).padTop(5).padRight(5);
 }
 
 function folder(table){
     table.table(Styles.black5, cons(t => {
-        folding(t);
+        folding(t,140,40);
     }));
     table.fillParent = true;
     table.visibility = () => {
@@ -16,13 +16,12 @@ function folder(table){
         if(Vars.player.unit().isBuilding()) return false;
         if(Vars.control.input.block != null) return false;
         if(Vars.control.input.mode == PlaceMode.breaking) return false;
-        if(!Vars.control.input.selectRequests.isEmpty() && Vars.control.input.lastSchematic != null && !Vars.control.input.selectRequests.isEmpty()) return false;
+        //if(!Vars.control.input.selectRequests.isEmpty() && Vars.control.input.lastSchematic != null && !Vars.control.input.selectRequests.isEmpty()) return false;
         return true;
     };
 }
 
 function d(){
-    //
     const dialog = new BaseDialog("AdminTool");
     dialog.addCloseButton();
     const table = dialog.cont;

@@ -1,12 +1,12 @@
 const vars = require("vars");
 const m = require("command");
 
-function addTeam(table,b,dialog){
-    table.button(new TextureRegionDrawable(Vars.content.blocks().get(b).icon(Cicon.medium)), Styles.clearFulli, 30, run(() => {
-        m.command("Groups.player.each(e=>{if(e.name==\""+vars.playerName+"\"){Vars.world.tileWorld(e.x, e.y).setNet(Vars.content.blocks().get("+b+"),e.team(),0)}})");
+function addBlock(table,b,dialog){
+    table.button(new TextureRegionDrawable(Vars.content.blocks().get(b).fullIcon), Styles.clearNonei, 55, run(() => {
+        m.command("Groups.player.each(e=>{if(e.id==\""+Vars.player.id+"\"){Vars.world.tileWorld(e.x, e.y).setNet(Vars.content.blocks().get("+b+"),e.team(),0)}})");
             dialog.hide();
-    })).size(40);
-    if(b % 10 == 9){
+    })).size(60);
+    if(b % 20 == 19){
         table.row()
     }
 }
@@ -21,8 +21,15 @@ function folding(t){
     b.clicked(() => {
         const dialog = new BaseDialog("Блоки");
         const table = dialog.cont;
+
+        let blocks = new Table().center().top();
+        var pane = new ScrollPane(blocks, Styles.smallPane);
+        pane.setScrollingDisabled(true, false);
+        pane.setOverscroll(false, false);
+        table.add(pane).size(Core.graphics.getWidth(),Core.graphics.getHeight()-150).top();
+
         for(var b = 0; b < Vars.content.blocks().size; b++){
-            addTeam(table,b,dialog);
+            addBlock(blocks,b,dialog);
         };
         dialog.buttons.row();
         dialog.buttons.button("Закрыть", run(() => {dialog.hide();})).size(190,50);
@@ -46,7 +53,7 @@ function foldedFolder(table){
         if(Vars.player.unit().isBuilding()) return false;
         if(Vars.control.input.block != null) return false;
         if(Vars.control.input.mode == PlaceMode.breaking) return false;
-        if(!Vars.control.input.selectRequests.isEmpty() && Vars.control.input.lastSchematic != null && !Vars.control.input.selectRequests.isEmpty()) return false;
+        //if(!Vars.control.input.selectRequests.isEmpty() && Vars.control.input.lastSchematic != null && !Vars.control.input.selectRequests.isEmpty()) return false;
         return true;
     };
 }

@@ -49,16 +49,3 @@ if(!Vars.headless){
         }
     );
 }
-
-print(Object.keys(Fx).length)
-var effects = "";
-for(var i in Object.keys(Fx)){
-    if(i==0){effects="{"}
-    effects = effects + "\""+Object.keys(Fx)[i]+"\""
-    if(i==Object.keys(Fx).length-1){
-        effects=effects+"}"
-    }else{
-        effects=effects+","
-    }
-}
-print(effects)

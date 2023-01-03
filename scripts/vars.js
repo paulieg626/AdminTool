@@ -1,5 +1,5 @@
 var units = Vars.content.units();
-var playerName = Core.settings.getString("name");
+var allTeams = Team.all;
 var baseTeams = Team.baseTeams;
 var folded = false;
 var TCOffset =  Core.settings.getBool("mod-time-control-enabled", false) ? 62 : 0;
@@ -9,9 +9,9 @@ function getPlayers(){
 }
 
 module.exports = {
-    playerName: playerName,
     units: units,
     folded: folded,
+    allTeams: allTeams,
     baseTeams: baseTeams,
     TCOffset: TCOffset
 }

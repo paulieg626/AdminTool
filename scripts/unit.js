@@ -2,11 +2,11 @@ const vars = require("vars");
 const m = require("command");
 
 function addUnit(table,b,dialog){
-    table.button(new TextureRegionDrawable(vars.units.get(b).icon(Cicon.small)), Styles.clearFulli, 30, run(() => {
-        m.command("Groups.player.each(e => {if(e.name==\""+vars.playerName+"\"){e.unit(Vars.content.units().get("+b+").spawn(e.team(), e.x,e.y))}})");
+    table.button(new TextureRegionDrawable(vars.units.get(b).fullIcon), Styles.clearNonei, 55, run(() => {
+        m.command("Groups.player.each(e => {if(e.id==\""+Vars.player.id+"\"){e.unit(Vars.content.units().get("+b+").spawn(e.team(), e.x,e.y))}})");
         dialog.hide();
-    })).size(40);
-    if(b % 6 == 5){
+    })).size(60);
+    if(b % 20 == 19){
         table.row()
     }
 }
@@ -22,15 +22,16 @@ function folding(t){
     b.clicked(() => {
         const dialog = new BaseDialog("Юниты");
         const table = dialog.cont;
+
+        let units = new Table().center().top();
+        var pane = new ScrollPane(units, Styles.smallPane);
+        pane.setScrollingDisabled(true, false);
+        pane.setOverscroll(false, false);
+        table.add(pane).size(Core.graphics.getWidth(),Core.graphics.getHeight()-150).top();
+
         for(var b = 0; b < vars.units.size; b++){
-            addUnit(table,b,dialog);
+            addUnit(units,b,dialog);
         };
-        dialog.buttons.button(vars.playerName, run(() => {})).size(190,50);
-        dialog.buttons.row();
-        dialog.buttons.button("Суицид", run(() => {
-            m.command("Groups.player.each(e => {if(e.name==\""+vars.playerName+"\"){e.unit().kill()}})");
-            dialog.hide();
-        })).size(190,50);
         dialog.buttons.row();
         dialog.buttons.button("Закрыть", run(() => {dialog.hide();})).size(190,50);
         dialog.show();
@@ -53,7 +54,7 @@ function foldedFolder(table){
         if(Vars.player.unit().isBuilding()) return false;
         if(Vars.control.input.block != null) return false;
         if(Vars.control.input.mode == PlaceMode.breaking) return false;
-        if(!Vars.control.input.selectRequests.isEmpty() && Vars.control.input.lastSchematic != null && !Vars.control.input.selectRequests.isEmpty()) return false;
+        //if(!Vars.control.input.selectRequests.isEmpty() && Vars.control.input.lastSchematic != null && !Vars.control.input.selectRequests.isEmpty()) return false;
         return true;
     };
 }
